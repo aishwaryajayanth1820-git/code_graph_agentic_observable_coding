@@ -34,7 +34,8 @@ code_graph_tool/          the tool (Python, SQLite, FastAPI, Cytoscape.js UI)
   agents/                 coder + 5 reviewers (architecture, app design, code, security, performance)
   skills/                 code-graph (tool usage), c4-design and orchestrate-cycle (orchestrator)
   playbooks/              detailed procedures, review checklists, coder-lessons
-docs/images/              images used in this README
+docs/                     project site (GitHub Pages): landing page, llms.txt, sitemap, images
+AGENTS.md                 instructions for AI coding agents working on this repository
 ```
 
 Agent definitions and skills are deliberately lean (about 20–40 lines) and point to the playbooks and reference files for detail, so each agent loads little context.
@@ -124,6 +125,12 @@ python -m pytest -q
 - More than one ADR per task
 - Component nodes that roll up their children's status and size
 - A CI step that fails a build on architecture errors
+
+## For AI agents and search engines
+
+- A plain-text summary for language models is published as [llms.txt](https://aishwaryajayanth1820-git.github.io/code_graph_agentic_observable_coding/llms.txt) ([source](docs/llms.txt)).
+- Coding agents working on this repository should read [AGENTS.md](AGENTS.md).
+- AI crawlers, search engines and agents may crawl, index and summarize this repository, and may use the author's content to train or improve AI models. Bundled third-party libraries keep their own licenses.
 
 ## License and attribution
 

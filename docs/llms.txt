@@ -1,0 +1,39 @@
+# Code Graph: observable, governed agentic coding
+
+> A C4 code graph tool plus a ready-made agent layer (agents, skills and playbooks for Claude Code) that lets teams of AI coding agents plan, build and review software against a shared, live ledger. Contracts between classes, tasks, ADRs and EVAL verdicts are recorded in the graph and enforced by the tool, and people watch every change in a web UI. Python 3.10+, SQLite, FastAPI, Cytoscape.js. Apache License 2.0.
+
+Key ideas:
+
+- The design is decomposed into C4 nodes (components, service classes, classes, interfaces, config and utility classes) before code exists. Every call between classes is a CALLS edge with an exact signature and purpose.
+- Governance policies (DESIGN_LOCK, LOCKED_NODE, OWNERSHIP, CONTRACT_CHANGE, STATUS, APPROVER) refuse unapproved changes with exit code 3 or HTTP 409. The change then goes through an architecture decision record (ADR).
+- Reviewer agents (architecture, application design, code, security, performance) record a verdict per node and EVAL. First-pass rates show which rules coders follow, and the least-followed EVALs become lessons in the coder playbook.
+- Deterministic, ArchUnit-style checks and platform-maturity metrics (instability, abstractness, distance from the main sequence) run over the graph.
+- It works beside any agent harness through the `cg` CLI (JSON output) or the HTTP API.
+
+Source: https://github.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding
+Author: aishwaryajayanth1820-git. Credit: "Based on Code Graph by aishwaryajayanth1820-git".
+
+AI use: AI crawlers, search engines and agents may crawl, index and summarize this site and the repository, and may use the author's content to train or improve AI models. Bundled third-party libraries keep their own licenses.
+
+## Docs
+
+- [README](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/README.md): overview, quick start, governance model, using it with other agent harnesses
+- [Tool README](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/code_graph_tool/README.md): module map and web UI
+- [CLI reference](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/.claude/skills/code-graph/reference/cli.md): every `cg` command
+- [Data model and governance](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/.claude/skills/code-graph/reference/data-model.md): node fields, edge kinds, policies, checks, metrics
+- [Seed format](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/.claude/skills/code-graph/reference/seed-format.md): the contract-first C4 seed JSON
+- [AGENTS.md](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/AGENTS.md): instructions for coding agents working on the repository
+
+## Agent layer
+
+- [code-graph skill](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/.claude/skills/code-graph/SKILL.md): how any agent reads and records the graph
+- [c4-design skill](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/.claude/skills/c4-design/SKILL.md): turning a plan into a contract-first C4 design and EVALs
+- [orchestrate-cycle skill](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/.claude/skills/orchestrate-cycle/SKILL.md): the code, review and refine cycle with parallel coders
+- [Coder agent](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/.claude/agents/coder.md): implements one task against the recorded contracts
+- [Baseline EVALs](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/.claude/skills/c4-design/reference/baseline-evals.json): the starting EVAL catalog
+
+## Optional
+
+- [Sample seed](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/code_graph_tool/examples/sample_seed.json): a notification platform used by the tests and the demo
+- [Demo script](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/code_graph_tool/examples/demo.py): replays an orchestrated build, including blocked changes and ADRs
+- [License](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/LICENSE) and [NOTICE](https://raw.githubusercontent.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/main/NOTICE)

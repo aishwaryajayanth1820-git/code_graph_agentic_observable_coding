@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code Graph: observable, governed agentic coding</title>
+<meta name="description" content="Open-source C4 code graph that makes AI coding agents observable and governed: contracts, ADRs and EVALs enforced by the tool, live in a web UI.">
+<meta name="keywords" content="agentic coding, AI coding agents, Claude Code, software architecture, C4 model, architecture decision records, ADR, EVALs, code review agents, multi-agent coding, governance, observability">
+<meta name="author" content="aishwaryajayanth1820-git">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://aishwaryajayanth1820-git.github.io/code_graph_agentic_observable_coding/">
+<link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563eb'/%3E%3Ccircle cx='10' cy='10' r='4' fill='%23fff'/%3E%3Ccircle cx='22' cy='12' r='4' fill='%23fff'/%3E%3Ccircle cx='15' cy='23' r='4' fill='%23fff'/%3E%3Cpath d='M10 10L22 12L15 23Z' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Code Graph">
+<meta property="og:title" content="Code Graph: observable, governed agentic coding">
+<meta property="og:description" content="A C4 code graph and agent layer that lets AI coding agents plan, build and review against a shared ledger, with contracts, ADRs and EVALs enforced by the tool.">
+<meta property="og:url" content="https://aishwaryajayanth1820-git.github.io/code_graph_agentic_observable_coding/">
+<meta property="og:image" content="https://aishwaryajayanth1820-git.github.io/code_graph_agentic_observable_coding/images/01-blackbox-vs-governed.png">
+<meta property="og:image:width" content="2800">
+<meta property="og:image:height" content="1440">
+<meta property="og:image:alt" content="Black-box agentic coding compared with graph-governed agentic coding">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Code Graph: observable, governed agentic coding">
+<meta name="twitter:description" content="Make AI coding agents observable and governed: contracts, ADRs and EVALs enforced by the tool, live in a web UI.">
+<meta name="twitter:image" content="https://aishwaryajayanth1820-git.github.io/code_graph_agentic_observable_coding/images/01-blackbox-vs-governed.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "Code Graph: observable, governed agentic coding",
+  "description": "A C4 code graph tool and agent layer (agents, skills and playbooks for Claude Code) that lets AI coding agents plan, build and review software against a shared, live ledger. Contracts, tasks, ADRs and EVAL verdicts are recorded in the graph and enforced by the tool.",
+  "url": "https://aishwaryajayanth1820-git.github.io/code_graph_agentic_observable_coding/",
+  "codeRepository": "https://github.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding",
+  "programmingLanguage": ["Python", "JavaScript"],
+  "runtimePlatform": "Python 3.10+",
+  "license": "https://www.apache.org/licenses/LICENSE-2.0",
+  "image": "https://aishwaryajayanth1820-git.github.io/code_graph_agentic_observable_coding/images/01-blackbox-vs-governed.png",
+  "keywords": "agentic coding, AI coding agents, Claude Code, C4 model, architecture decision records, EVALs, software architecture governance",
+  "author": {"@type": "Person", "name": "aishwaryajayanth1820-git", "url": "https://github.com/aishwaryajayanth1820-git"}
+}
+</script>
+<style>
+:root {
+  --bg: #ffffff; --surface: #f6f8fa; --text: #1f2328; --muted: #59636e; --line: #d1d9e0;
+  --accent: #2563eb; --accent-text: #ffffff; --code-bg: #f6f8fa;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1117; --surface: #161b22; --text: #e6edf3; --muted: #9198a1; --line: #30363d;
+    --accent: #4c8dff; --accent-text: #0d1117; --code-bg: #161b22;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1117; --surface: #161b22; --text: #e6edf3; --muted: #9198a1; --line: #30363d;
+  --accent: #4c8dff; --accent-text: #0d1117; --code-bg: #161b22;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+a { color: var(--accent); }
+.wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+header.top { border-bottom: 1px solid var(--line); }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 14px; padding-bottom: 14px; flex-wrap: wrap; }
+.brand { font-weight: 700; color: var(--text); text-decoration: none; }
+nav a { margin-left: 18px; text-decoration: none; color: var(--muted); font-size: 15px; }
+nav a:first-child { margin-left: 0; }
+nav a:hover { color: var(--text); }
+.hero { padding: 56px 0 24px; }
+h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.15; margin: 0 0 16px; letter-spacing: -0.02em; }
+.lead { font-size: clamp(18px, 2.2vw, 21px); color: var(--muted); max-width: 46em; margin: 0 0 28px; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 36px; }
+.btn { display: inline-block; padding: 11px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; border: 1px solid var(--line); color: var(--text); background: var(--surface); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+figure { margin: 28px 0; }
+figure img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); background: #ffffff; }
+figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
+section { padding: 28px 0; border-top: 1px solid var(--line); }
+h2 { font-size: clamp(24px, 3.4vw, 30px); line-height: 1.25; margin: 8px 0 14px; letter-spacing: -0.01em; }
+h3 { font-size: 18px; margin: 0 0 6px; }
+p { margin: 0 0 14px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 18px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; }
+.card p { margin: 0; color: var(--muted); font-size: 16px; }
+ul.policies { padding-left: 20px; }
+ul.policies li { margin-bottom: 6px; }
+code { font-family: Consolas, "SFMono-Regular", Menlo, monospace; font-size: 0.9em; }
+pre { background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 16px; overflow-x: auto; font-size: 14px; line-height: 1.5; }
+dl dt { font-weight: 700; margin-top: 14px; }
+dl dd { margin: 4px 0 0; color: var(--muted); }
+footer { border-top: 1px solid var(--line); padding: 28px 0 48px; color: var(--muted); font-size: 15px; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./">Code Graph</a>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#quick-start">Quick start</a>
+      <a href="https://github.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <h1>Code Graph: observable, governed agentic coding</h1>
+    <p class="lead">AI coding agents are fast, but they usually work as a black box: the plan and the rules live in a prompt, and all you can inspect is the diff at the end. Code Graph opens the box. Agents plan, build and review against a shared C4 graph that records every contract, task, ADR and EVAL verdict, and the tool, not the prompt, decides which changes are allowed.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding">View on GitHub</a>
+      <a class="btn" href="#quick-start">Try the demo</a>
+    </div>
+    <figure>
+      <img src="images/01-blackbox-vs-governed.png" width="2800" height="1440" alt="Comparison of black-box agentic coding, where only the final diff is visible, with graph-governed agentic coding, where design, contracts, decisions and reviews are recorded and enforced">
+    </figure>
+  </div>
+
+  <section id="why">
+    <h2>Why teams use it</h2>
+    <div class="grid">
+      <div class="card"><h3>Fewer rewrites</h3><p>Contracts are agreed before coding, and the change radius of any edit is known before it is made, which saves tokens and rework.</p></div>
+      <div class="card"><h3>Parallel agents without collisions</h3><p>A node belongs to one active task. Contract changes go through an ADR with an exact list of impacted agents.</p></div>
+      <div class="card"><h3>Architecture that holds</h3><p>Platform-first layering, dependency rules and lifecycle gates are enforced by the tool, not by hope.</p></div>
+      <div class="card"><h3>Decisions you can audit</h3><p>ADRs are linked to the nodes they cover, and every change is in an audit ledger.</p></div>
+      <div class="card"><h3>Quality you can measure</h3><p>Reviewer agents record a verdict per node and EVAL. First-pass rates show which rules coders follow unprompted.</p></div>
+      <div class="card"><h3>Works beside any harness</h3><p>Everything is a CLI call or an HTTP request, so it adds governance to the agent framework you already use.</p></div>
+    </div>
+  </section>
+
+  <section id="how">
+    <h2>How a build flows</h2>
+    <p>An orchestrator agent turns the approved plan into C4 nodes (components, service classes, classes, interfaces, config and utility classes). Every call between classes becomes a CALLS edge with its exact signature and purpose. The design is checked and locked, then coder agents implement tasks in parallel and reviewer agents (architecture, application design, code, security, performance) record verdicts in the graph.</p>
+    <figure>
+      <img src="images/02-workflow.png" width="2656" height="1076" loading="lazy" alt="Workflow swimlanes: requirement, plan, contract-first C4 design, locked design, parallel coder tasks, reviewer verdicts and refinement">
+      <figcaption>The build workflow, from requirement to evaluated code.</figcaption>
+    </figure>
+  </section>
+
+  <section id="governance">
+    <h2>Governance: the tool decides what is allowed</h2>
+    <p>Policies run on every write. A blocked change returns exit code 3 (HTTP 409) with the reason and the next step, and it proceeds only once an architecture decision record is accepted.</p>
+    <ul class="policies">
+      <li><strong>DESIGN_LOCK</strong>: no new or removed nodes after the design is locked, without an ADR.</li>
+      <li><strong>LOCKED_NODE</strong>: tested and evaluated code changes only under an ADR or a review refinement.</li>
+      <li><strong>OWNERSHIP</strong>: an agent cannot touch a node inside another agent's active task.</li>
+      <li><strong>CONTRACT_CHANGE</strong>: changing a signature others use, or demanding a new function from another agent's node, needs an ADR.</li>
+      <li><strong>STATUS</strong>: lifecycle gates cannot be skipped, and a failing EVAL blocks the final gate.</li>
+      <li><strong>APPROVER</strong>: only approvers accept ADRs, lock the design or change settings.</li>
+    </ul>
+    <figure>
+      <img src="images/06-contract-escalation.png" width="1896" height="916" loading="lazy" alt="Sequence of a contract change between parallel coder agents: the tool blocks the change, an ADR is proposed and accepted, and impacted agents are notified">
+      <figcaption>A contract change between parallel agents is stopped, decided through an ADR, and coordinated.</figcaption>
+    </figure>
+  </section>
+
+  <section id="evals">
+    <h2>EVALs that teach the coders</h2>
+    <p>A baseline catalog of EVALs covers architecture, application design, code, business logic, security and performance; projects add their own. Deterministic, ArchUnit-style checks back them wherever possible. The orchestrator turns the least-followed EVALs into lessons in the coder playbook, so the next cycle passes more on the first try.</p>
+    <figure>
+      <img src="images/07-eval-learning-loop.png" width="2800" height="1400" loading="lazy" alt="EVAL learning loop: reviewers record verdicts, first-pass rates are measured, lessons are added to the coder playbook">
+      <figcaption>EVAL verdicts feed a learning loop for the coder agents.</figcaption>
+    </figure>
+  </section>
+
+  <section id="observe">
+    <h2>See every change as it happens</h2>
+    <p>A live web UI shows C4 boundaries, nodes colored by lifecycle status, function contracts on edges, tasks, ADRs, EVAL adherence, platform-maturity metrics and the full audit ledger. Agents can hand people deep links to the exact node, edge or ADR.</p>
+    <figure>
+      <img src="images/09-ui-overview.png" width="2880" height="1720" loading="lazy" alt="Code Graph web UI showing C4 components as boundaries and classes colored by status">
+      <figcaption>The graph view: platform components (solid) and use cases (dashed).</figcaption>
+    </figure>
+    <figure>
+      <img src="images/14-ui-maturity.png" width="2880" height="1720" loading="lazy" alt="Maturity view with progress, platform instability, platform changes per node and per-component coupling metrics">
+      <figcaption>Platform maturity: is the platform stabilising while use cases grow on top of it?</figcaption>
+    </figure>
+  </section>
+
+  <section id="architecture">
+    <h2>Architecture of the tool</h2>
+    <p>Thin adapters (CLI, HTTP API, web UI) sit over one service layer. Governance is a list of pluggable policies, analytics are deterministic, and the repository is plain SQL over one SQLite file per project. The CLI needs only the Python standard library.</p>
+    <figure>
+      <img src="images/03-architecture.png" width="2800" height="1600" loading="lazy" alt="Tool architecture: CLI, HTTP API and UI adapters over the graph service, policies, analytics and a SQLite repository">
+    </figure>
+  </section>
+
+  <section id="quick-start">
+    <h2>Quick start</h2>
+    <p>Replay a small orchestrated build, then open the UI. The demo shows the tool blocking an edit to another agent's node, holding a node at the final gate because of a review failure, and stopping a contract change until an ADR is accepted.</p>
+<pre><code>git clone https://github.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding.git
+cd code_graph_agentic_observable_coding/code_graph_tool
+pip install -r requirements.txt
+python examples/demo.py
+python cg.py --db examples/demo.db serve --port 8770
+# open http://127.0.0.1:8770/ui/</code></pre>
+    <p>To use it on your own project: <code>python code_graph_tool/cg.py install path/to/project --with-claude</code>, then follow the <a href="https://github.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding#use-it-on-your-project">README</a>.</p>
+  </section>
+
+  <section id="faq">
+    <h2>Questions</h2>
+    <dl>
+      <dt>Does it replace my agent framework?</dt>
+      <dd>No. It is a governance layer beside it. Your harness reads C4 context from the graph, treats exit code 3 or HTTP 409 as a circuit breaker, and reports changes and verdicts back.</dd>
+      <dt>Which coding agents does it work with?</dt>
+      <dd>It ships ready-made agents, skills and playbooks for Claude Code. Any agent that can run a command or call an HTTP API can use it.</dd>
+      <dt>What does it need?</dt>
+      <dd>Python 3.10 or later. The CLI uses only the standard library; the web UI needs FastAPI and Uvicorn.</dd>
+      <dt>Is it free to use?</dt>
+      <dd>Yes, under the Apache License 2.0, including commercial use. If you build on it, keep its NOTICE file and credit the project.</dd>
+    </dl>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Code Graph by <a href="https://github.com/aishwaryajayanth1820-git">aishwaryajayanth1820-git</a>. Licensed under the <a href="https://github.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding/blob/main/LICENSE">Apache License 2.0</a>; please credit "Based on Code Graph by aishwaryajayanth1820-git" when you build on it.</p>
+    <p>AI crawlers and agents are welcome to read, index and learn from this site; a summary for language models is in <a href="llms.txt">llms.txt</a>.</p>
+  </div>
+</footer>
+</body>
+</html>

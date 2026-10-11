@@ -1,0 +1,4 @@
+__pycache__/
+.pytest_cache/
+code_graph.db
+code_graph.db-*

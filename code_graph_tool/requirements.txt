@@ -1,0 +1,7 @@
+# Code graph tool (Python 3.10+). CLI needs only the standard library; the UI/API server needs these.
+fastapi>=0.109,<1
+uvicorn>=0.27,<1
+pydantic>=2.5,<3
+# tests
+pytest>=8
+httpx>=0.27

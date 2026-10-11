@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Code Graph</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-title">Code Graph</div>
+    <div class="brand-project" id="projectName">…</div>
+  </div>
+  <div class="search">
+    <input id="search" type="search" autocomplete="off" placeholder="Search nodes… (space = all words)">
+    <div id="suggest" class="suggest" hidden></div>
+  </div>
+  <div class="stats" id="stats"></div>
+  <nav class="tabs" id="tabs">
+    <button data-view="graph" class="active">Graph</button>
+    <button data-view="tasks">Tasks</button>
+    <button data-view="adrs">ADRs</button>
+    <button data-view="utilities">Utilities</button>
+    <button data-view="evals">EVALs</button>
+    <button data-view="metrics">Maturity</button>
+    <button data-view="checks">Checks</button>
+    <button data-view="audit">Ledger</button>
+    <a href="/docs" target="_blank" rel="noopener">API</a>
+  </nav>
+</header>
+
+<main class="layout">
+  <aside class="sidebar" id="sidebar">
+    <button class="collapse" id="collapseLeft" title="Collapse">‹</button>
+    <section>
+      <h3>C4 components</h3>
+      <div id="componentLegend" class="legend-list"></div>
+    </section>
+    <section>
+      <h3>Layer</h3>
+      <div id="filterLayer" class="checks"></div>
+    </section>
+    <section>
+      <h3>Node type</h3>
+      <div id="filterType" class="checks"></div>
+    </section>
+    <section>
+      <h3>Status</h3>
+      <div id="filterStatus" class="checks"></div>
+    </section>
+    <section>
+      <h3>Edges</h3>
+      <div id="filterEdge" class="checks"></div>
+    </section>
+    <section class="actions">
+      <label class="check"><input type="checkbox" id="allLabels"> Show all labels</label>
+      <button id="btnReset">Reset view</button>
+      <button id="btnRelayout">Re-layout</button>
+    </section>
+  </aside>
+
+  <section class="stage" id="stage">
+    <div id="cy"></div>
+    <div class="hint">Click a component to zoom in · click a class for details · click an edge for its contract · Esc resets the view</div>
+    <div class="view" id="view" hidden></div>
+  </section>
+
+  <aside class="details" id="details">
+    <div class="empty">Select a component, class or edge.</div>
+  </aside>
+</main>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-card">
+    <button class="modal-close" id="modalClose" title="Close">×</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script src="vendor/cytoscape.min.js"></script>
+<script src="vendor/layout-base.js"></script>
+<script src="vendor/cose-base.js"></script>
+<script src="vendor/cytoscape-fcose.js"></script>
+<script src="js/api.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/graph.js"></script>
+<script src="js/panels.js"></script>
+<script src="js/views.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

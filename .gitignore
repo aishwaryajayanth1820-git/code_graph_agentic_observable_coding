@@ -1,0 +1,13 @@
+# Personal working instructions and the original design notes (kept local)
+.claude/Claude.md
+.claude/CLAUDE.md
+CLAUDE.md
+.claude/code_graph_tool_manage_and_view_code.md
+.claude/settings.local.json
+
+# Graph databases (one per project / demo run) and caches
+*.db
+*.db-wal
+*.db-shm
+__pycache__/
+.pytest_cache/

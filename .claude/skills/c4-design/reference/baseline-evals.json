@@ -1,0 +1,228 @@
+{
+ "evals": [
+  {
+   "id": "ARCH-001",
+   "category": "ARCH",
+   "severity": "BLOCKER",
+   "title": "Platform never depends on use case",
+   "rule": "No PLATFORM node calls, depends on, implements, or imports a USECASE node or module.",
+   "check_method": "cg check (G01) + grep imports in platform code paths for use-case packages."
+  },
+  {
+   "id": "ARCH-002",
+   "category": "ARCH",
+   "severity": "BLOCKER",
+   "title": "No component dependency cycles",
+   "rule": "Component dependencies (declared DEPENDS and actual cross-component calls/imports) form a DAG.",
+   "check_method": "cg check (G02) + import graph of the changed component."
+  },
+  {
+   "id": "ARCH-003",
+   "category": "ARCH",
+   "severity": "MAJOR",
+   "title": "Only declared dependencies",
+   "rule": "Every cross-component call or import in code matches a DEPENDS edge between the components.",
+   "check_method": "cg check (G03); compare imports in code_path with cg node get <component> depends_out."
+  },
+  {
+   "id": "ARCH-004",
+   "category": "ARCH",
+   "severity": "MAJOR",
+   "title": "Depend on abstractions across components",
+   "rule": "Cross-component calls target an INTERFACE or SERVICE_CLASS, never another component's concrete CLASS internals (shared UTILITY_CLASS and CONFIG_CLASS nodes and the kernel's frozen shared value types, core.domain_models, are allowed).",
+   "check_method": "cg check (G04) + read imports."
+  },
+  {
+   "id": "ARCH-005",
+   "category": "ARCH",
+   "severity": "MAJOR",
+   "title": "Use cases plug in, platform stays closed",
+   "rule": "The change adds use-case behaviour through a platform extension point; platform files are untouched unless an accepted ADR covers them.",
+   "check_method": "cg task get <T> nodes vs layer; cg metrics platform_maturity; git diff of platform paths."
+  },
+  {
+   "id": "ARCH-006",
+   "category": "ARCH",
+   "severity": "MAJOR",
+   "title": "Graph matches code",
+   "rule": "Every implemented class is a node with the correct code_path, and every cross-class call in code is a CALLS edge with the same function name and signature.",
+   "check_method": "Read the code at code_path; compare with cg node get <id> calls_out/calls_in."
+  },
+  {
+   "id": "APP-001",
+   "category": "APP_DESIGN",
+   "severity": "MAJOR",
+   "title": "Single responsibility",
+   "rule": "The class does what its business_intent says and nothing else; unrelated logic lives in its own node.",
+   "check_method": "Read the class against cg node get <id> business_intent."
+  },
+  {
+   "id": "APP-002",
+   "category": "APP_DESIGN",
+   "severity": "MAJOR",
+   "title": "Declared extension point is real",
+   "rule": "The pattern named in the node's extensibility field is implemented, so the anticipated extension needs no edits to this class.",
+   "check_method": "Describe the files an anticipated new use case would touch; must match the extensibility claim."
+  },
+  {
+   "id": "APP-003",
+   "category": "APP_DESIGN",
+   "severity": "MAJOR",
+   "title": "Explicit interface contracts",
+   "rule": "Public functions have typed parameters/returns, documented error behaviour, and do not leak implementation types (DB rows, framework objects) across the boundary.",
+   "check_method": "Read public signatures of the node; compare with the CALLS edge signatures."
+  },
+  {
+   "id": "APP-004",
+   "category": "APP_DESIGN",
+   "severity": "MINOR",
+   "title": "Configuration is data",
+   "rule": "Business parameters (limits, amounts, frequencies, thresholds) come from CONFIG_CLASS objects, not constants in logic.",
+   "check_method": "Grep the node for numeric literals in business logic."
+  },
+  {
+   "id": "APP-005",
+   "category": "APP_DESIGN",
+   "severity": "MINOR",
+   "title": "No speculative generality",
+   "rule": "Every abstraction has either two implementations or a declared extension point in the graph.",
+   "check_method": "For each interface/base class added, find its IMPLEMENTS edges or extensibility entry."
+  },
+  {
+   "id": "APP-006",
+   "category": "APP_DESIGN",
+   "severity": "MAJOR",
+   "title": "Dependencies are injected",
+   "rule": "Collaborators (ports, clock, RNG, config) are passed in, not constructed or imported as globals inside business logic.",
+   "check_method": "Read constructors and module-level state."
+  },
+  {
+   "id": "CODE-001",
+   "category": "CODE",
+   "severity": "MAJOR",
+   "title": "Contract functions are unit tested",
+   "rule": "Every function with an incoming CALLS edge has unit tests for normal, boundary and error cases, and the tests pass.",
+   "check_method": "Map calls_in functions to tests; run the test command."
+  },
+  {
+   "id": "CODE-002",
+   "category": "CODE",
+   "severity": "MINOR",
+   "title": "Honest size and complexity",
+   "rule": "Recorded loc matches cg scan-loc within 10% and the complexity self-assessment follows the rubric; complexity <= max_complexity.",
+   "check_method": "cg scan-loc; cg check G07/G09; read the code."
+  },
+  {
+   "id": "CODE-003",
+   "category": "CODE",
+   "severity": "MINOR",
+   "title": "Utilities reused and registered",
+   "rule": "No helper duplicates a registered utility; new shared helpers are registered with cg util add.",
+   "check_method": "cg util find <keywords> for each helper in the diff."
+  },
+  {
+   "id": "CODE-004",
+   "category": "CODE",
+   "severity": "MAJOR",
+   "title": "Errors handled at boundaries",
+   "rule": "No bare or silent excepts; failures at I/O boundaries are handled or surfaced with context.",
+   "check_method": "Grep for except/catch; read handlers."
+  },
+  {
+   "id": "BIZ-001",
+   "category": "BUSINESS",
+   "severity": "BLOCKER",
+   "title": "Implements the acceptance criteria",
+   "rule": "Behaviour matches the task's business context and acceptance criteria exactly (numbers, limits, rounding, ordering).",
+   "check_method": "cg task get <T>; trace each criterion to code and a test."
+  },
+  {
+   "id": "BIZ-002",
+   "category": "BUSINESS",
+   "severity": "BLOCKER",
+   "title": "Business invariants enforced and tested",
+   "rule": "Invariants stated in the requirement (caps, eligibility, frequency) are enforced in code and covered by tests, including edge and concurrent cases.",
+   "check_method": "List invariants from the requirement; find the enforcing code and the test for each."
+  },
+  {
+   "id": "SEC-001",
+   "category": "SECURITY",
+   "severity": "MAJOR",
+   "title": "Validate at trust boundaries",
+   "rule": "Inputs from APIs, feeds, files and UIs are validated (type, range, size) before use.",
+   "check_method": "Identify entry points in the node; read validation."
+  },
+  {
+   "id": "SEC-002",
+   "category": "SECURITY",
+   "severity": "MAJOR",
+   "title": "No secrets, minimal PII in logs",
+   "rule": "No credentials in code or config files; logs do not contain secrets and minimise personal identifiers.",
+   "check_method": "Grep for keys/passwords/tokens; read log statements."
+  },
+  {
+   "id": "SEC-003",
+   "category": "SECURITY",
+   "severity": "BLOCKER",
+   "title": "No injection or unsafe deserialisation",
+   "rule": "Queries are parameterised; no eval/exec/pickle/yaml.load on untrusted data; no shell with untrusted input.",
+   "check_method": "Grep for execute(, eval(, pickle, yaml.load, subprocess with shell=True."
+  },
+  {
+   "id": "SEC-004",
+   "category": "SECURITY",
+   "severity": "MAJOR",
+   "title": "Security-relevant randomness via injectable CSPRNG",
+   "rule": "Randomness that decides money, rewards or security outcomes uses a cryptographically secure or certified RNG behind an injectable seam (deterministic in tests).",
+   "check_method": "Grep for random.; confirm the RNG port and its production adapter."
+  },
+  {
+   "id": "PERF-001",
+   "category": "PERFORMANCE",
+   "severity": "MAJOR",
+   "title": "Hot paths are constant-cost",
+   "rule": "Per-event/per-request paths do no blocking I/O, no unbounded scans and no N+1 calls.",
+   "check_method": "Trace the per-event call chain through CALLS edges; read each hop."
+  },
+  {
+   "id": "PERF-002",
+   "category": "PERFORMANCE",
+   "severity": "MAJOR",
+   "title": "Bounded memory",
+   "rule": "Caches, histories and queues are bounded (size or time window) or explicitly justified.",
+   "check_method": "Find collections that grow per event; check eviction."
+  },
+  {
+   "id": "PERF-003",
+   "category": "PERFORMANCE",
+   "severity": "MINOR",
+   "title": "Expensive lookups cached or batched",
+   "rule": "Config/eligibility lookups called per event are cached with a defined invalidation, or batched.",
+   "check_method": "Read callers of repository/port functions on the hot path."
+  },
+  {
+   "id": "ARCH-007",
+   "category": "ARCH",
+   "severity": "MINOR",
+   "title": "Shared types are visible in the graph",
+   "rule": "Every import of another node's shared type (domain models, config classes) is recorded as a USES edge, so cg impact shows its real blast radius.",
+   "check_method": "grep 'from <package>.<component>.' imports in each code_path; compare with the node's USES/CALLS edges."
+  },
+  {
+   "id": "ARCH-008",
+   "category": "ARCH",
+   "severity": "MINOR",
+   "title": "Concrete adapters only in composition roots",
+   "rule": "Concrete adapters (clocks, RNGs, buses, databases, repositories) are constructed only in declared composition roots and tests; elsewhere they arrive through their ports.",
+   "check_method": "grep for adapter constructors (e.g. SeededRng(, SystemClock(, InMemoryEventBus(, Sqlite*() outside the composition root and tests."
+  },
+  {
+   "id": "ARCH-009",
+   "category": "ARCH",
+   "severity": "MINOR",
+   "title": "Contract lists the public surface",
+   "rule": "Every public method of a SERVICE_CLASS or INTERFACE appears in its node's contract field.",
+   "check_method": "Compare public methods (inspect) with the contract text."
+  }
+ ]
+}

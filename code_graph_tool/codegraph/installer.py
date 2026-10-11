@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Optional
 
 TOOL_ITEMS = ("codegraph", "ui", "tests", "cg.py", "requirements.txt", "README.md")
+LEGAL_ITEMS = ("LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md")   # attribution travels with every copy
 CLAUDE_ITEMS = ("skills/code-graph", "skills/c4-design", "skills/orchestrate-cycle", "agents", "playbooks")
 IGNORE = shutil.ignore_patterns("__pycache__", "*.pyc", ".pytest_cache", "code_graph.db*")
 
@@ -23,6 +24,15 @@ def _copy_tree(src: Path, dst: Path, force: bool, report: list[str]) -> None:
         _copy_tree(item, dst / item.relative_to(src), force, report)
 
 
+def _legal_dir(tool_dir: Path) -> Optional[Path]:
+    """Installed copies carry the legal files themselves; the source repo keeps them one level up."""
+    for d in (tool_dir, tool_dir.parent):
+        notice = d / "NOTICE"
+        if notice.is_file() and notice.read_text(encoding="utf-8").startswith("Code Graph"):
+            return d
+    return None
+
+
 def install(tool_dir: Path, project_dir: Path, *, name: Optional[str] = None, with_claude: bool = False,
             force: bool = False) -> dict:
     from .db import connect
@@ -36,6 +46,10 @@ def install(tool_dir: Path, project_dir: Path, *, name: Optional[str] = None, wi
     for item in TOOL_ITEMS:
         if (tool_dir / item).exists():
             _copy_tree(tool_dir / item, dest / item, force, copied)
+    legal = _legal_dir(tool_dir)
+    for item in LEGAL_ITEMS if legal else ():
+        if (legal / item).exists():
+            _copy_tree(legal / item, dest / item, force, copied)
     if with_claude:
         claude_src = tool_dir.parent / ".claude"
         for item in CLAUDE_ITEMS:

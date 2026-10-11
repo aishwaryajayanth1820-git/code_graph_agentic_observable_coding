@@ -305,6 +305,26 @@ def test_cli_policy_violation_exit_code(tmp_path, capsys):
     assert err["error"] == "POLICY_VIOLATION"
 
 
+def test_install_carries_license_and_notice_not_the_host_projects(tmp_path):
+    from codegraph.installer import install
+    repo = tmp_path / "repo"
+    tool = repo / "code_graph_tool"
+    tool.mkdir(parents=True)
+    (tool / "cg.py").write_text("# cli")
+    (repo / "LICENSE").write_text("Apache License")
+    (repo / "NOTICE").write_text("Code Graph: notice")
+    host = tmp_path / "host"
+    host.mkdir()
+    (host / "LICENSE").write_text("host license")
+    install(tool, host)
+    assert (host / "code_graph" / "NOTICE").read_text().startswith("Code Graph")
+    assert (host / "code_graph" / "LICENSE").read_text() == "Apache License"
+    nested = host / "sub"
+    nested.mkdir()
+    install(host / "code_graph", nested)  # from an installed copy: its own legal files, never the host's
+    assert (nested / "code_graph" / "LICENSE").read_text() == "Apache License"
+
+
 def test_api_smoke(tmp_path):
     import asyncio
 

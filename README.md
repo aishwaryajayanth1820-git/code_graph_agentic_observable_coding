@@ -124,3 +124,13 @@ python -m pytest -q
 - More than one ADR per task
 - Component nodes that roll up their children's status and size
 - A CI step that fails a build on architecture errors
+
+## License and attribution
+
+Free to use, modify and redistribute, including commercially, under the [Apache License 2.0](LICENSE).
+
+If you redistribute it or build on it, keep the [NOTICE](NOTICE) file with your copy; the license requires that. When you use it or write about it, please credit the author:
+
+> Based on Code Graph by aishwaryajayanth1820-git (https://github.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding)
+
+GitHub's **Cite this repository** button gives the same credit from [CITATION.cff](CITATION.cff). The bundled UI libraries keep their own MIT licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

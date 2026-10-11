@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this tool, build on it or write about it, please credit it as below."
+title: "Code Graph: observable, governed agentic coding"
+type: software
+authors:
+  - name: "aishwaryajayanth1820-git"
+repository-code: "https://github.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding"
+url: "https://github.com/aishwaryajayanth1820-git/code_graph_agentic_observable_coding"
+license: Apache-2.0
+date-released: "2026-10-11"
+abstract: >-
+  A C4 code graph and agent layer (agents, skills and playbooks) that lets coding
+  agents plan, build and review software against a shared ledger, with contracts,
+  ADRs and EVALs enforced by the tool and visible in a web UI.
+keywords:
+  - agentic coding
+  - software architecture
+  - C4 model
+  - architecture decision records
+  - code review

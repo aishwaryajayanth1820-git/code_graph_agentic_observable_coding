@@ -152,12 +152,14 @@ def run(db_path: Path) -> None:
                       actor="coder-4", task_id=t5)
     adr = svc.propose_adr("Expose message templates on ConfigLibrary", nodes="config_manager.config_library", actor="coder-4",
                           context="The email channel needs per-channel templates; ConfigLibrary is EVALUATED and has no such function.",
-                          decision="Add get_templates(channel_id) -> list[Template] to ConfigLibrary; templates are a config group.",
+                          decision="Add get_templates(channel_id) -> list[Template] to ConfigLibrary (templates are a config group); "
+                                   "email_channel declares a dependency on config_manager.",
                           consequences=f"Callee changes; impacted: {[i.get('callee') or i.get('caller') for i in details['impacted']]}.")["id"]
     svc.block_task(t5, f"{adr}: needs get_templates on ConfigLibrary", actor="coder-4")
     svc.decide_adr(adr, "ACCEPTED", note="Additive, inside the approved design.", actor=ORCH)
     svc.upsert_edge("CALLS", "email_channel.email_sender", "config_manager.config_library", function_name="get_templates",
                     signature=sig, purpose="Load message templates.", actor="coder-4", task_id=t5, adr_id=adr)
+    svc.upsert_edge("DEPENDS", "email_channel", "config_manager", actor=ORCH, adr_id=adr)
     svc.start_task(t5, agent="coder-4", actor="coder-4")
     t6 = svc.create_task("Add get_templates to ConfigLibrary", nodes="config_manager.config_library", agent="coder-1",
                          adr_id=adr, actor=ORCH, description=f"Implement {sig} under {adr}.")["id"]
